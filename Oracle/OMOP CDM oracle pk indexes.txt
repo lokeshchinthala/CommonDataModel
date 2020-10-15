@@ -57,8 +57,6 @@ Standardized vocabulary
 
 ************************/
 
-
-
 ALTER TABLE concept ADD CONSTRAINT xpk_concept PRIMARY KEY (concept_id);
 
 ALTER TABLE vocabulary ADD CONSTRAINT xpk_vocabulary PRIMARY KEY (vocabulary_id);
@@ -101,7 +99,7 @@ ALTER TABLE observation_period ADD CONSTRAINT xpk_observation_period PRIMARY KEY
 
 ALTER TABLE specimen ADD CONSTRAINT xpk_specimen PRIMARY KEY ( specimen_id ) ;
 
-ALTER TABLE death ADD CONSTRAINT xpk_death PRIMARY KEY ( person_id ) ;
+/*ALTER TABLE death ADD CONSTRAINT xpk_death PRIMARY KEY ( person_id ) ;*/
 
 ALTER TABLE visit_occurrence ADD CONSTRAINT xpk_visit_occurrence PRIMARY KEY ( visit_occurrence_id ) ;
 
@@ -194,6 +192,8 @@ EXCEPTION
       RAISE;
     END IF;
 END;
+/
+
 CREATE INDEX idx_concept_code ON concept (concept_code ASC);
 CREATE INDEX idx_concept_vocabluary_id ON concept (vocabulary_id ASC);
 CREATE INDEX idx_concept_domain_id ON concept (domain_id ASC);
@@ -207,6 +207,7 @@ EXCEPTION
       RAISE;
     END IF;
 END;
+/
 
 BEGIN
   EXECUTE IMMEDIATE 'CREATE UNIQUE INDEX idx_domain_domain_id  ON domain  (domain_id ASC)';
@@ -216,6 +217,7 @@ EXCEPTION
       RAISE;
     END IF;
 END;
+/
 
 BEGIN
   EXECUTE IMMEDIATE 'CREATE UNIQUE INDEX idx_concept_class_class_id  ON concept_class  (concept_class_id ASC)';
@@ -225,6 +227,7 @@ EXCEPTION
       RAISE;
     END IF;
 END;
+/
 
 CREATE INDEX idx_concept_relationship_id_1 ON concept_relationship (concept_id_1 ASC);
 CREATE INDEX idx_concept_relationship_id_2 ON concept_relationship (concept_id_2 ASC);
@@ -238,6 +241,7 @@ EXCEPTION
       RAISE;
     END IF;
 END;
+/
 
 CREATE INDEX idx_concept_synonym_id ON concept_synonym (concept_id ASC);
 
@@ -277,13 +281,14 @@ EXCEPTION
       RAISE;
     END IF;
 END;
+/
 
 CREATE INDEX idx_observation_period_id ON observation_period (person_id ASC);
 
 CREATE INDEX idx_specimen_person_id ON specimen (person_id ASC);
 CREATE INDEX idx_specimen_concept_id ON specimen (specimen_concept_id ASC);
 
-CREATE INDEX idx_death_person_id ON death (person_id ASC);
+/*CREATE INDEX idx_death_person_id ON death (person_id ASC);*/
 
 CREATE INDEX idx_visit_person_id ON visit_occurrence (person_id ASC);
 CREATE INDEX idx_visit_concept_id ON visit_occurrence (visit_concept_id ASC);
@@ -367,3 +372,4 @@ CREATE INDEX idx_dose_era_concept_id ON dose_era (drug_concept_id ASC);
 CREATE INDEX idx_condition_era_person_id ON condition_era (person_id ASC);
 CREATE INDEX idx_condition_era_concept_id ON condition_era (condition_concept_id ASC);
 
+COMMIT;
